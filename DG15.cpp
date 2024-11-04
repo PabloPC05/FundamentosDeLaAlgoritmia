@@ -61,19 +61,27 @@ int N = v.size();
 
 int resolverCaso(vector<int> v, int l){
     int N = v.size(), numIntervalos = 0, numPositivosDerecha = 0, numPositivosIzquierda = 0;
-    for(int i = 0; i < N-l+1; i++){
-        int limite = i+(l/2);
-        for(int j = i; j < limite; j++){
-            if(v.at(j) > 0) numPositivosIzquierda++;
-        }
-        for(int j = i+l-1; j > limite-1; j--){
-            if(v.at(j) > 0) numPositivosDerecha++;
+    //inicializamos los valores de numPositivosDerecha e Izquierda en primer lugar, i.e.
+    //inicializamos la ventana en la que hay que poner el foco
+    for(int i = 0; i < l; i++){
+        if(i < l/2 && v.at(i) > 0) numPositivosIzquierda++;
+        else if(i >= l/2 && v.at(i) > 0) numPositivosDerecha++;
+    }
+    //Vemos cuantos intervalos de que cumplen esa condicion en el primer intervalos
+    if(numPositivosIzquierda >= numPositivosDerecha) numIntervalos++;
+    for(int j = 0; j < N-l; j++){
+        //Quitamos los elementos que se vayan a mover
+        if(v.at(j) > 0) numPositivosIzquierda--;
+        if(v.at(j+l) > 0) numPositivosDerecha++;
+        if(v.at(l/2+j) > 0){
+            numPositivosDerecha--;
+            numPositivosIzquierda++;
         }
         if(numPositivosIzquierda >= numPositivosDerecha) numIntervalos++;
-        numPositivosDerecha = 0;
-        numPositivosIzquierda = 0;
     }
+        //Añadimos los elementos que se van a mover
     return numIntervalos;
+
 }
 
 bool resuelveCaso() {
