@@ -7,14 +7,16 @@
 using namespace std;
 
 int numSegmentos(vector<int> v){
-    int N = v.size();
-    int numSegmentos = 0;
-    for(int i = 1; i < N; i++){
-        int numPares = 0;
-        for(int j = 0; j < N; j++){
-            if(v.at(j) % 2 == 0) numPares++;
+    int numSegmentos = 0, paresSeguidos = 0; 
+    for(int i = 0; i < v.size(); i++){
+        if(v.at(i)%2==0){
+            while(i < v.size() && v.at(i)%2==0){ 
+                paresSeguidos++;
+                i++;
+            }
+            numSegmentos += (paresSeguidos*(paresSeguidos+1))/2;
+            paresSeguidos = 0;
         }
-        if(numPares == i) numSegmentos++;
     }
     return numSegmentos;
 }

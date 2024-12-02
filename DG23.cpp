@@ -7,25 +7,28 @@
 #include <sstream>
 using namespace std;
 
-int minimo(vector <int> const& v){
-    int min = v.at(v.size()-1);
+//Ordenacion recursiva con el algoritmo merge sort
+int minimo(vector<int> v){
+    int min = v.at(0);
     if(v.size() == 1) return min;
-    int min2 = minimo(vector<int>(v.begin(), v.end()-1));
-    if(min > min2) min = min2;
+    int mitad = v.size()/2;
+    int min1 = minimo(vector<int>(v.begin(), v.begin() + mitad));
+    int min2 = minimo(vector<int>(v.begin()+ mitad, v.end()));
+    if(min1 < min2) min = min1;
+    else min = min2;
     return min;
 }
 
-
 bool resuelveCaso() {
-    int N; 
-    cin >> N;
+    int N;
+    cin >> N; 
     if(!cin) return false;
-    vector<int> v(N);
-    while(N--){
-        cin >> v[N];
+    vector <int> v(N);
+    for(int i = 0; i < N; i++){
+        cin >> v[i];
     }
     cout << minimo(v) << endl;
-    return true;
+    return true; 
 }
 	
 int main() {
