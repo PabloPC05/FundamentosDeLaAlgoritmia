@@ -52,7 +52,7 @@ int busqueda_binaria(const vector<int>& paquetes, int d, int left, int right) {
 
 
 bool resuelveCaso(){
-    int N, d;
+    int N, d; // N - num paquetes, d - num drones
     cin >> N >> d;
     if(N == 0 && d == 0) return false;
     vector<int> pesos(N, 0);

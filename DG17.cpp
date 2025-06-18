@@ -1,37 +1,35 @@
-//Pablo Pardo Cotos
-
 #include <iostream>
 #include <fstream>
-#include <vector>
-#include <cmath>
 using namespace std;
 
-int numComplementario(int n){
-    return 9-n;
-}
+void calcularComplementarioInverso(int n, long long& complemento, long long& inverso, long long& factor) {
+    if (n < 10) {
+        int comp = 9 - n;
+        complemento = comp;
+        inverso = comp;
+        factor = 10;
+    } else {
+        int dig = n % 10;
+        int comp = 9 - dig;
+        int resto = n / 10;
 
-int calcularComplemento(int n){
-    if(n < 10) return numComplementario(n);
-    int digito = n%10;
-    int complementario = numComplementario(digito);
-    return complementario + 10*calcularComplemento(n/10);
-}
+        long long complementoAnterior, inversoAnterior, factorAnterior;
+        calcularComplementarioInverso(resto, complementoAnterior, inversoAnterior, factorAnterior);
 
-//Funcion recursiva que calcula el numero inverso de un numero
-int numeroInverso(int n){
-    if(n < 10) return n;
-    int digito = n%10;
-    int potencia = log10(n);
-    return digito * pow(10, potencia) + numeroInverso(n/10);
+        complemento = complementoAnterior * 10 + comp;
+        inverso = comp * factorAnterior + inversoAnterior;
+        factor = factorAnterior * 10;
+    }
 }
 
 void resuelveCaso() {
-    int numero, numComplementario = 0, numInverso = 0; 
-    cin >> numero;
-    //El coste de ambas funciones es T(n) = T(n/10) + O(1) = O(log n)
-    numComplementario = calcularComplemento(numero);
-    numInverso = numeroInverso(numComplementario);
-    cout << numComplementario << " " << numInverso << endl;
+    int n;
+    cin >> n;
+
+    long long complemento, inverso, factor;
+    calcularComplementarioInverso(n, complemento, inverso, factor);
+
+    cout << complemento << ' ' << inverso << '\n';
 }
 	
 int main() {
