@@ -8,14 +8,14 @@
 using namespace std;
 
 void preCalculoEst(const int& numComensales, const vector<vector<bool>> & allegados, vector<int>& sumaRapido) {
-	// minimo de cada fila
+	// Precalculamos la suma de los minimos de las filas i+1 a numComensales-1
 	vector<int> rapido(numComensales,0);
 	for (int i = 0; i < allegados.size(); ++i) {
 		for (int j = 0; j <=i; ++j) {
 			if (allegados[i][j]) ++rapido[i];
 		}
 	}
-	// calculo de las estimaciones
+	// sumaRapido[i] es la suma de los minimos de las filas i+1 a numComensales-1
 	if (numComensales > 0) {
 		sumaRapido[numComensales - 1] = 0;
 		for (int i = numComensales - 2; i >= 0;--i) {
@@ -26,9 +26,9 @@ void preCalculoEst(const int& numComensales, const vector<vector<bool>> & allega
 
 bool es_Valida(vector<vector<float>> const& distancias, vector<vector<bool>>const& allegados, int& valor, vector<int> const& sol, int index, int &incremento){
 	bool valido = true;
-	for (int i = 0; i < index; i++) {
-		if (allegados[i][index] && distancias[sol[index]][sol[i]] < 2) ++incremento;
-		else if (!allegados[i][index] && distancias[sol[index]][sol[i]] < 2) valido = false;
+	for (int i = 0; i < index && valido; i++) {
+		if (allegados[i][index] && distancias[sol[index]][sol[i]] < 2) ++incremento; // Si son allegados y la distancia es menor a 2, incrementamos el contador de parejas
+		else if (!allegados[i][index] && distancias[sol[index]][sol[i]] < 2) valido = false; // Si no son allegados y la distancia es menor a 2, no es una colocación válida
 	}
 	return valido;
 }
